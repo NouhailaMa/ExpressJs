@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>
+    <%= title %>
+  </title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+</head>
+<style>
+  #mapid {
+    height: 450px;
+    width: 40%;
+  }
+</style>
+
+<body>
+  </div>
+  <div class="container">
+    <h2 style="text-align: center;margin-top: 2%;">
+      <%= title %>
+    </h2>
+    <br><br>
+    
+    <a href="/add" class="btn btn-sm btn-primary">Ajouter monument</a><br /><br />
+    <table class="table table-success table-striped" style="width: 59%; float: left; margin-left: -6%;">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Nom</th>
+          <th>Latitude </th>
+          <th>Longitude </th>
+          <th> Ville </th>
+        </tr>
+      </thead>
+      <tbody>
+        <% monument.forEach(function(m){ %>
+          <tr>
+            <td>
+              <%= m.id %>
+            </td>
+            <td>
+              <%= m.nom %>
+            </td>
+            <td>
+              <%= m.latitude %>
+            </td>
+            <td>
+              <%= m.longitude %>
+            </td>
+            <td>
+              <%= m.ville %>
+            </td>
+
+            <td>
+              <a href="edit/<%= m.id %>" class="btn btn-sm btn-primary">Edit</a>
+              <a href="delete/<%= m.id %>" class="btn btn-sm btn-danger">Delete</a>
+              <a href="visite/<%= m.id %>" class="btn btn-sm btn-success">Visite</a>
+            </td>
+          </tr>
+          <% }); %>
+      </tbody>
+    </table>
+  </div>
+
+    
+  <div style="float: left; width: 40%; margin-left: 1%; margin-right: 1%;">
+    <style type="text/css">
+      /* Set the size of the div element that contains the map */
+      #map {
+        height: 400px;
+        /* The height is 400 pixels */
+        width: 100%;
+        /* The width is the width of the web page */
+      }
+    </style>
+    <script>
+      // Initialize and add the map
+      function initMap() {
+        // The location of Uluru
+        const uluru = { lat:31.792305849269,lng: -7.080168000000015};
+        // The map, centered at Uluru
+        const map = new google.maps.Map(document.getElementById("map"), {
+          zoom: 4,
+          center: uluru,
+        });
+        // The marker, positioned at Uluru
+        var row =<%-JSON.stringify(monument) %>;
+        row.forEach(function (m) {
+          console.log(m);
+        const marker = new google.maps.Marker({
+          position: {lat : m.latitude, lng : m.longitude},
+          title : m.nom,
+          map: map,
+        });
+        });
+      }
+    </script>
+
+  <body>
+    <div id="map"></div>
+
+    <!-- Async script executes immediately and must be after any DOM elements used in callback. -->
+    <script
+  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAPjsLyjTEgYf904X0d-udZrIe9DrqDsM0
+  &callback=initMap&libraries=&v=weekly"
+  async
+></script>
+
+</body>
+
+
+
+</html>
